@@ -8,10 +8,10 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public class CombinationIteratorTest {
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=IndexOutOfBoundsException.class)
     public void testInvalidN() { new CombinationIterator(-1, 0); }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=IndexOutOfBoundsException.class)
     public void testInvalidR() { new CombinationIterator(0, -1); }
 
     @Test
@@ -54,12 +54,12 @@ public class CombinationIteratorTest {
     @Test
     public void test5C3() { testCombinations(5, 3, SampleCombinations.for5C3); }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=IndexOutOfBoundsException.class)
     public void testInvalidLoIndex() {
         new CombinationIterator(0, 0, -1);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=IndexOutOfBoundsException.class)
     public void testInvalidHiIndex() {
         new CombinationIterator(0, 0, 1);
     }

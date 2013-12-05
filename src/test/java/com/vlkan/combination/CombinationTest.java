@@ -8,16 +8,16 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public class CombinationTest {
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=IndexOutOfBoundsException.class)
     public void testInvalidN() { new Combination(-1, 0); }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=IndexOutOfBoundsException.class)
     public void testInvalidR() { new Combination(0, -1); }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=IndexOutOfBoundsException.class)
     public void testInvalidBufferSize() { Combination.get(5, 3, 1, new int[1]); }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=IndexOutOfBoundsException.class)
     public void testInvalidCombination() { Combination.get(0, 0, 1, new int[0]); }
 
     @Test

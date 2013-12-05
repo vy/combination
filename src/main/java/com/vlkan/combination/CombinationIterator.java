@@ -1,6 +1,5 @@
 package com.vlkan.combination;
 
-import com.vlkan.combination.Combination;
 import net.jcip.annotations.NotThreadSafe;
 
 import java.util.Iterator;
@@ -22,22 +21,22 @@ public class CombinationIterator implements Iterator<int[]> {
     protected final int[] index;
     protected long k;
 
-    public CombinationIterator(final int n, final int r, final int k) {
+    public CombinationIterator(final int n, final int r, final long k, final long l) {
+        Validators.validate(n, r, k, l);
         this.index = new int[r];
         Combination.get(n, r, k, index);
-        this.l = Combination.choose(n, r);
+        this.l = l;
         this.n = n;
         this.r = r;
         this.k = k;
     }
 
+    public CombinationIterator(final int n, final int r, final long k) {
+        this(n, r, k, Combination.choose(n, r));
+    }
+
     public CombinationIterator(final int n, final int r) {
-        this.l = Combination.choose(n, r);
-        this.n = n;
-        this.r = r;
-        this.k = 0;
-        this.index = new int[r];
-        for (int i = 0; i < r; i++) index[i] = i;
+        this(n, r, 0, Combination.choose(n, r));
     }
 
     public int getN() { return n; }
@@ -98,7 +97,7 @@ public class CombinationIterator implements Iterator<int[]> {
 
     @Override
     public String toString() {
-        return String.format("com.vlkan.combination.CombinationIterator(n: %d, r: %d, k: %d)", n, r, k);
+        return String.format("CombinationIterator(n: %d, r: %d, k: %d)", n, r, k);
     }
 
 }

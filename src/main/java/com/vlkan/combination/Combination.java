@@ -11,24 +11,8 @@ public class Combination implements Iterable<int[]> {
     protected final int r;
     protected final long size;
 
-    private static void validate(final int n, final int r) {
-        if (n < 0 || r < 0)
-            throw new IllegalArgumentException("Expecting positive integers.");
-    }
-
-    private static void validate(final int n, final int r, final long k, final int[] c) {
-        validate(n, r);
-        if (c.length != r)
-            throw new IllegalArgumentException(String.format(
-                    "Result vector must be of size %d.", r));
-        final long nCr = choose(n, r);
-        if (nCr <= k)
-            throw new IllegalArgumentException(String.format(
-                    "Expecting k < choose(n, r) = %d.", nCr));
-    }
-
     public Combination(final int n, final int r) {
-        validate(n, r);
+        Validators.validate(n, r);
         this.n = n;
         this.r = r;
         this.size = choose(n, r);
@@ -39,13 +23,13 @@ public class Combination implements Iterable<int[]> {
     public int getR() { return r; }
 
     @Override
-    public String toString() { return String.format("com.vlkan.combination.Combination(%d, %d)", n, r); }
+    public String toString() { return String.format("Combination(%d, %d)", n, r); }
 
     /**
      * Finds nCr.
      */
     public static long choose(final int n, final int r) {
-        validate(n, r);
+        Validators.validate(n, r);
         if (n < r) return 0;
         if (n == r) return 1;
         final int s = Math.min(r, (n - r));
@@ -81,7 +65,7 @@ public class Combination implements Iterable<int[]> {
      * that k = choose(c_1, r) + choose(c_2, r-1) + ... + choose(c_r, 1).
      */
     private static void combinadic(final int n, final int r, final long k, final int[] c) {
-        validate(n, r, k, c);
+        Validators.validate(n, r, k, c);
         long x = k;
         int a = n;
         int b = r;
@@ -97,8 +81,10 @@ public class Combination implements Iterable<int[]> {
      * Finds the k'th combination in nCr.
      */
     public static void get(final int n, final int r, final long k, final int[] c) {
-        validate(n, r, k, c);
-        final long d = choose(n, r) - k - 1;
+        Validators.validate(n, r, k, c);
+        final long nCr = choose(n, r);
+        if (nCr == 0) return;
+        final long d = nCr - k - 1;
         combinadic(n, r, d, c);
         for (int i = 0; i < r; i++)
             c[i] = n - c[i] - 1;
